@@ -2,90 +2,88 @@ const SCISSOR = 0;
 const ROCK = 1;
 const PAPER = 2;
 
-function toString(choice) {
-    switch (choice) {
-        case SCISSOR:
-            return 'Scissors';
-        case ROCK:
-            return 'Rock';
-        case PAPER:
-            return 'Paper';
-        default:
-            console.log('Wrong Argument to toString!');
-            return "";
-    }
-}
-
-function getHumanChoice() {
-    let userInput = prompt('Enter your choice:');
-    if (!userInput) return -1;
-
-    userInput = userInput.toLowerCase();
-    switch (userInput) {
-        case 'scissor':
-        case 'scissors':
-            return SCISSOR;
-        case 'rock':
-            return ROCK;
-        case 'paper':
-            return PAPER;
-        default:
-            return -1;
-    }
+function toString(res) {
+  switch (res) {
+    case -1:
+      return "You Lose!";
+    case 0:
+      return "Draw!";
+    case 1:
+      return "You Win!";
+    default:
+      console.error("Wrong Argument to toString!");
+      return "";
+  }
 }
 
 function simulateComputerChoice() {
-    const choice = (Math.floor(Math.random() * 100)) % 3;
-    return choice;
+  const choice = Math.floor(Math.random() * 100) % 3;
+  return choice;
 }
 
 function playRound(hChoice, cChoice) {
-    const res = hChoice - cChoice;
-    switch (res) {
-        case -1:
-        case 2:
-            return 0; // Computer Win
+  const res = hChoice - cChoice;
+  switch (res) {
+    case -1:
+    case 2:
+      return -1; // Computer Win
 
-        case 0:
-            return 2; // Draw
+    case 0:
+      return 0; // Draw
 
-        case -2:
-        case 1:
-            return 1; // Human Win
-    }
-}
-
-function playGame() {
-    let computerScore = humanScore = round = 0;
-    // Play Rounds
-    while (round++ < 5) {
-        const humanChoice = getHumanChoice();
-        if (humanChoice === -1) return;
-
-        const computerChoice = simulateComputerChoice();
-
-        switch (playRound(humanChoice, computerChoice)) {
-            case 0:
-                computerScore++;
-                console.log(`You Lose! ${toString(computerChoice)} Beats ${toString(humanChoice)}`);
-                break;
-            case 1:
-                humanScore++;
-                console.log(`You Win! ${toString(humanChoice)} Beats ${toString(computerChoice)}`);
-                break;
-            case 2:
-                console.log(`Draw! You've both played ${toString(humanChoice)}!`);
-        }
-    }
-    // Declare Winner
-    console.log('Game Over!');
-    if (humanScore === computerScore) console.log(`You've Drawn!`);
-    if (humanScore > computerScore) console.log("You've Won! Congratulations.");
-    if (humanScore < computerScore) console.log("You've Lost! Skill Issue");
+    case -2:
+    case 1:
+      return 1; // Human Win
+  }
 }
 
 function main() {
-    playGame();
+  let diff = (humanScore = computerScore = 0);
+
+  const resText = document.querySelector(`div#roundResult`);
+  const hScoreObj = document.querySelector(`div#hScore`);
+  const cScoreObj = document.querySelector(`div#cScore`);
+
+  const rockButton = document.querySelector(`button#rock`);
+  const paperButton = document.querySelector(`button#paper`);
+  const scissorButton = document.querySelector(`button#scissor`);
+
+  const getWinner = () => {
+    if (humanScore > computerScore) return `You Win The Game!`;
+    else if (humanScore < computerScore) return `Computer Wins The Game!`;
+    else throw Error("Draw!");
+  };
+
+  const handleScore = (sDiff) => {
+    diff += sDiff;
+    if (sDiff > 0) {
+      hScoreObj.textContent = ++humanScore;
+    } else if (sDiff < 0) {
+      cScoreObj.textContent = ++computerScore;
+    }
+
+    if ((humanScore >= 5 || computerScore >= 5) && Math.abs(diff) > 1) {
+      // game over
+      resText.textContent = `${toString(sDiff)} Game Over! ${getWinner()}`;
+      rockButton.disabled = true;
+      paperButton.disabled = true;
+      scissorButton.disabled = true;
+      return;
+    }
+    resText.textContent = `${toString(sDiff)}`;
+  };
+
+  scissorButton.addEventListener("click", () => {
+    handleScore(playRound(SCISSOR, simulateComputerChoice()));
+  });
+
+  rockButton.addEventListener("click", () =>
+    handleScore(playRound(ROCK, simulateComputerChoice())),
+  );
+
+  paperButton.addEventListener("click", () =>
+    handleScore(playRound(PAPER, simulateComputerChoice())),
+  );
 }
 
 main();
