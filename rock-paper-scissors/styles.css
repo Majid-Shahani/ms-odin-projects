@@ -1,0 +1,63 @@
+.title,
+.container,
+.card,
+.buttons,
+#roundResult {
+  padding: 4px 8px;
+  width: 100%;
+  box-sizing: border-box;
+}
+
+.title,
+.label,
+#roundResult,
+#hScore,
+#cScore {
+  text-align: center;
+  color: antiquewhite;
+}
+
+#roundResult {
+  font-weight: 700;
+}
+
+body {
+  margin: 0;
+  padding: 0;
+  min-height: 100vh;
+  background-color: darkslateblue;
+
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 12px;
+}
+
+.container {
+  display: flex;
+  justify-content: space-around;
+}
+
+.card {
+  flex-grow: 1;
+  display: flex;
+  justify-content: center;
+  gap: 4px;
+}
+
+.buttons {
+  display: flex;
+  justify-content: center;
+  gap: 24px;
+}
+
+button {
+  box-sizing: border-box;
+  background-color: cadetblue;
+  color: antiquewhite;
+  font-size: 14px;
+  font-weight: 600;
+  padding: 6px 24px;
+  border-style: none;
+  border-radius: 8px;
+}

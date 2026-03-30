@@ -48,12 +48,6 @@ function main() {
   const paperButton = document.querySelector(`button#paper`);
   const scissorButton = document.querySelector(`button#scissor`);
 
-  const getWinner = () => {
-    if (humanScore > computerScore) return `You Win The Game!`;
-    else if (humanScore < computerScore) return `Computer Wins The Game!`;
-    else throw Error("Draw!");
-  };
-
   const handleScore = (sDiff) => {
     diff += sDiff;
     if (sDiff > 0) {
@@ -64,7 +58,7 @@ function main() {
 
     if ((humanScore >= 5 || computerScore >= 5) && Math.abs(diff) > 1) {
       // game over
-      resText.textContent = `${toString(sDiff)} Game Over! ${getWinner()}`;
+      resText.textContent = `${toString(sDiff)} Game Over!`;
       rockButton.disabled = true;
       paperButton.disabled = true;
       scissorButton.disabled = true;
