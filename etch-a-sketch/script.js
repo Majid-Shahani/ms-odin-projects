@@ -1,6 +1,7 @@
 /*
  * Globals
  */
+const DEFAULT_COLOR = "hsl(302, 46%, 40%)";
 let gridWidth = 16;
 let color = "cyan";
 let mouseDown = false;
@@ -48,10 +49,11 @@ function createGrid(width) {
       frag.setAttribute("class", "fragment");
       frag.addEventListener("mouseenter", (e) => {
         if (mouseDown) {
-          if (currentKey === 0) e.target.style.background = color;
-          else e.target.style.background = getRandomColor();
+          if (currentKey === 0) e.target.style.backgroundColor = color;
+          else e.target.style.backgroundColor = getRandomColor();
         }
       });
+      frag.style.backgroundColor = DEFAULT_COLOR;
       gridRow.appendChild(frag);
     }
 
@@ -66,7 +68,7 @@ function createControlPanel() {
 
   // Add Resize Button
   const sizeButton = document.createElement("button");
-  sizeButton.textContent = "Resize Grid";
+  sizeButton.textContent = "Resize";
   sizeButton.setAttribute("class", "button");
   sizeButton.addEventListener("click", () => {
     createGrid(+prompt("Set Grid Size", "16"));
@@ -76,7 +78,7 @@ function createControlPanel() {
   // Add Clear Button
   const clear = document.createElement("button");
   clear.textContent = "Clear";
-  clear.setAttribute("cleass", "button");
+  clear.setAttribute("class", "button");
   clear.addEventListener("click", () => createGrid(gridWidth));
   panel.appendChild(clear);
 }
