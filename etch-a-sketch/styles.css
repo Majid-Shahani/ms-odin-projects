@@ -80,9 +80,8 @@ footer {
   flex: 1 0 auto;
   min-width: 70%;
   display: flex;
-  flex-direction: groove;
 
-  border-style: inset;
+  border-style: groove;
   border-width: 1px;
   border-top-width: 0px;
   border-bottom-width: 0px;
