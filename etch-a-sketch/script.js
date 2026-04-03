@@ -22,13 +22,7 @@ function setupEvents() {
 }
 
 function getRandomColor() {
-  const letters = "0123456789ABCDEF";
-  let color = "#";
-
-  for (let i = 0; i < 6; i++) {
-    color += letters[Math.floor(Math.random() * 16)];
-  }
-  return color;
+  return `hsl(${Math.random() * 360}, ${Math.random() * 100}%, ${Math.random() * 100}%)`;
 }
 
 function createGrid(width) {
