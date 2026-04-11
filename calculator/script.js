@@ -115,8 +115,17 @@ function setupDOM() {
     .addEventListener("click", (ev) => addInput("-"));
   document.querySelector("#exec").addEventListener("click", exe);
 
+  // Add Keyboard Listeners
   document.addEventListener("keydown", (ev) => {
     let key = ev.key;
+    if (key === "(") {
+      const length = input.textContent.length;
+      if (length > 0) {
+        if (isNumerical(input.textContent[length - 1])) addInput("*");
+      }
+      addInput("(");
+      return;
+    }
     if (isNumerical(key) || key in operators) {
       addInput(key);
       return;
