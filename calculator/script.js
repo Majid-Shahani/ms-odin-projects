@@ -1,34 +1,11 @@
-const stack = [];
-const queue = [];
 const operators = {
   "(": "(",
   ")": ")",
-  "*": { precedence: 2, op: multiply },
-  "/": { precedence: 2, op: divide },
-  "+": { precedence: 1, op: add },
-  "-": { precedence: 1, op: subtract },
+  "+": { precedence: 1, op: (n1, n2) => n1 + n2 },
+  "-": { precedence: 1, op: (n1, n2) => n1 - n2 },
+  "*": { precedence: 2, op: (n1, n2) => n1 * n2 },
+  "/": { precedence: 2, op: (n1, n2) => n1 / n2 },
 };
-
-let calcText = "03+22-42/(1+5)-1"; // 17
-
-function add(n1, n2) {
-  return n1 + n2;
-}
-function subtract(n1, n2) {
-  return n1 - n2;
-}
-function multiply(n1, n2) {
-  return n1 * n2;
-}
-function divide(n1, n2) {
-  if (n2 === 0) throw Error("Cannot Divide By Zero.");
-  return n1 / n2;
-}
-
-function isNumerical(char) {
-  const cc = char.codePointAt(0);
-  return cc > 47 && cc < 58;
-}
 
 function getOperator(char) {
   const op = operators[char];
@@ -57,7 +34,12 @@ function pushOperator(op) {
   stack.push(op);
 }
 
-function shuntingYard(txt) {
+function isNumerical(char) {
+  const cc = char.codePointAt(0);
+  return cc > 47 && cc < 58;
+}
+
+function shuntingYard(txt, stack, queue) {
   for (let i = 0; i < txt.length; ) {
     if (isNumerical(txt[i])) {
       const numStartIdx = i++;
@@ -71,7 +53,7 @@ function shuntingYard(txt) {
   while (stack.length > 0) queue.push(stack.pop());
 }
 
-function solvePostfix() {
+function solvePostfix(stack, queue) {
   for (let i = 0; i < queue.length; i++) {
     if (typeof queue[i] === "number") stack.push(queue[i]);
     else {
@@ -82,9 +64,10 @@ function solvePostfix() {
   }
 }
 
-function evaluate() {
-  shuntingYard(calcText);
-  solvePostfix();
-  queue.length = 0;
-  return stack.pop();
+function evaluate(calcText) {
+  const operatorStack = [];
+  const numberQueue = [];
+  shuntingYard(calcText, operatorStack, numberQueue);
+  solvePostfix(operatorStack, numberQueue);
+  return operatorStack.pop();
 }
