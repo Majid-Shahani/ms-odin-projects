@@ -72,29 +72,11 @@ function evaluate(calcText) {
   return operatorStack.pop();
 }
 
-function main() {
+function setupDOM() {
   const result = document.querySelector("#calcResult");
   const input = document.querySelector("#calcInput");
-  // setup numbers
-  const numberKeys = document.querySelector("#numButtons");
-  const addButton = (face) => {
-    let key = document.createElement("button");
-    key.setAttribute(
-      "class",
-      typeof face === "number" ? "numButton" : "opButton",
-    );
-    key.addEventListener("click", (ev) => (input.textContent += face));
-    key.textContent = face;
-    numberKeys.appendChild(key);
-  };
 
-  addButton(0);
-  addButton("(");
-  addButton(")");
-  for (let i = 1; i < 10; i++) addButton(i);
-
-  // Setup Operation Buttons
-  // Delete Button
+  // Setup Operation Buttons:
   const del = (ev) => {
     input.textContent = input.textContent.slice(
       0,
@@ -121,6 +103,34 @@ function main() {
   document.querySelector("#addButton").addEventListener("click", add);
   document.querySelector("#subButton").addEventListener("click", sub);
   document.querySelector("#exec").addEventListener("click", exe);
+
+  // Setup number Buttons
+  const numberKeys = document.querySelector("#numButtons");
+  const addButton = (face) => {
+    let key = document.createElement("button");
+    key.setAttribute(
+      "class",
+      typeof face === "number" ? "numButton" : "opButton",
+    );
+    if (face === "(") {
+      key.addEventListener("click", (ev) => {
+        const length = input.textContent.length;
+        if (length > 0) {
+          if (isNumerical(input.textContent[length - 1])) mul(ev);
+        }
+        input.textContent += "(";
+      });
+    } else {
+      key.addEventListener("click", (ev) => (input.textContent += face));
+    }
+    key.textContent = face;
+    numberKeys.appendChild(key);
+  };
+
+  addButton(0);
+  addButton("(");
+  addButton(")");
+  for (let i = 1; i < 10; i++) addButton(i);
 }
 
-main();
+setupDOM();
