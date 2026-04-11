@@ -13,7 +13,7 @@ function getOperator(char) {
   return op;
 }
 
-function pushOperator(op) {
+function pushOperator(op, stack, queue) {
   if (op === "(") {
     stack.push(op);
     return;
@@ -46,7 +46,7 @@ function shuntingYard(txt, stack, queue) {
       while (i < txt.length && isNumerical(txt[i])) i++;
       queue.push(parseInt(txt.slice(numStartIdx, i)));
     } else {
-      pushOperator(getOperator(txt[i]));
+      pushOperator(getOperator(txt[i]), stack, queue);
       i++;
     }
   }
@@ -71,3 +71,56 @@ function evaluate(calcText) {
   solvePostfix(operatorStack, numberQueue);
   return operatorStack.pop();
 }
+
+function main() {
+  const result = document.querySelector("#calcResult");
+  const input = document.querySelector("#calcInput");
+  // setup numbers
+  const numberKeys = document.querySelector("#numButtons");
+  const addButton = (face) => {
+    let key = document.createElement("button");
+    key.setAttribute(
+      "class",
+      typeof face === "number" ? "numButton" : "opButton",
+    );
+    key.addEventListener("click", (ev) => (input.textContent += face));
+    key.textContent = face;
+    numberKeys.appendChild(key);
+  };
+
+  addButton(0);
+  addButton("(");
+  addButton(")");
+  for (let i = 1; i < 10; i++) addButton(i);
+
+  // Setup Operation Buttons
+  // Delete Button
+  const del = (ev) => {
+    input.textContent = input.textContent.slice(
+      0,
+      input.textContent.length - 1,
+    );
+  };
+  const ac = (ev) => {
+    input.textContent = "";
+    result.textContent = "";
+  };
+  const mul = (ev) => (input.textContent += "*");
+  const div = (ev) => (input.textContent += "/");
+  const add = (ev) => (input.textContent += "+");
+  const sub = (ev) => (input.textContent += "-");
+  const exe = (ev) => {
+    result.textContent = evaluate(input.textContent);
+    input.textContent = result.textContent;
+  };
+
+  document.querySelector("#del").addEventListener("click", del);
+  document.querySelector("#AC").addEventListener("click", ac);
+  document.querySelector("#multButton").addEventListener("click", mul);
+  document.querySelector("#divideButton").addEventListener("click", div);
+  document.querySelector("#addButton").addEventListener("click", add);
+  document.querySelector("#subButton").addEventListener("click", sub);
+  document.querySelector("#exec").addEventListener("click", exe);
+}
+
+main();
