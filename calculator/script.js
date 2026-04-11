@@ -76,6 +76,8 @@ function setupDOM() {
   const result = document.querySelector("#calcResult");
   const input = document.querySelector("#calcInput");
 
+  const addInput = (text) => (input.textContent += text);
+
   // Setup Operation Buttons:
   const del = (ev) => {
     input.textContent = input.textContent.slice(
@@ -83,26 +85,39 @@ function setupDOM() {
       input.textContent.length - 1,
     );
   };
-  const ac = (ev) => {
-    input.textContent = "";
-    result.textContent = "";
-  };
-  const mul = (ev) => (input.textContent += "*");
-  const div = (ev) => (input.textContent += "/");
-  const add = (ev) => (input.textContent += "+");
-  const sub = (ev) => (input.textContent += "-");
   const exe = (ev) => {
     result.textContent = evaluate(input.textContent);
     input.textContent = result.textContent;
   };
 
   document.querySelector("#del").addEventListener("click", del);
-  document.querySelector("#AC").addEventListener("click", ac);
-  document.querySelector("#multButton").addEventListener("click", mul);
-  document.querySelector("#divideButton").addEventListener("click", div);
-  document.querySelector("#addButton").addEventListener("click", add);
-  document.querySelector("#subButton").addEventListener("click", sub);
+  document.querySelector("#AC").addEventListener("click", (ev) => {
+    input.textContent = "";
+    result.textContent = "";
+  });
+  document
+    .querySelector("#multButton")
+    .addEventListener("click", (ev) => addInput("*"));
+  document
+    .querySelector("#divideButton")
+    .addEventListener("click", (ev) => addInput("/"));
+  document
+    .querySelector("#addButton")
+    .addEventListener("click", (ev) => addInput("+"));
+  document
+    .querySelector("#subButton")
+    .addEventListener("click", (ev) => addInput("-"));
   document.querySelector("#exec").addEventListener("click", exe);
+
+  document.addEventListener("keydown", (ev) => {
+    let key = ev.key;
+    if (isNumerical(key) || key in operators) {
+      addInput(key);
+      return;
+    } else if (key === "Enter" || key === "=") {
+      exe(ev);
+    } else if (key === "Backspace" || key === "Delete") del(ev);
+  });
 
   // Setup number Buttons
   const numberKeys = document.querySelector("#numButtons");
@@ -116,12 +131,12 @@ function setupDOM() {
       key.addEventListener("click", (ev) => {
         const length = input.textContent.length;
         if (length > 0) {
-          if (isNumerical(input.textContent[length - 1])) mul(ev);
+          if (isNumerical(input.textContent[length - 1])) addInput("*");
         }
-        input.textContent += "(";
+        addInput("(");
       });
     } else {
-      key.addEventListener("click", (ev) => (input.textContent += face));
+      key.addEventListener("click", (ev) => addInput(face));
     }
     key.textContent = face;
     numberKeys.appendChild(key);
