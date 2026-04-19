@@ -10,7 +10,7 @@ const operators = {
     },
   }, // needs proper unary - operator
   "*": { precedence: 2, op: (n1, n2) => n1 * n2 },
-  "/": { precedence: 2, op: (n1, n2) => n1 / n2 },
+  "÷": { precedence: 2, op: (n1, n2) => n1 / n2 },
 };
 
 function getOperator(char) {
@@ -98,15 +98,15 @@ function setupDOM() {
 
   document.querySelector("#del").addEventListener("click", del);
   document.querySelector("#AC").addEventListener("click", (ev) => {
-    input.textContent = "";
-    result.textContent = "";
+    input.textContent = 0;
+    result.textContent = 0;
   });
   document
     .querySelector("#multButton")
     .addEventListener("click", (ev) => addInput("*"));
   document
     .querySelector("#divideButton")
-    .addEventListener("click", (ev) => addInput("/"));
+    .addEventListener("click", (ev) => addInput("÷"));
   document
     .querySelector("#addButton")
     .addEventListener("click", (ev) => addInput("+"));
@@ -118,6 +118,7 @@ function setupDOM() {
   // Add Keyboard Listeners
   document.addEventListener("keydown", (ev) => {
     let key = ev.key;
+    if (key === "/") key = "÷";
     if (key === "(") {
       const length = input.textContent.length;
       if (length > 0) {
