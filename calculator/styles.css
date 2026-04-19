@@ -7,3 +7,72 @@ body {
   justify-content: space-between;
   align-items: center;
 }
+
+main {
+  flex: 1 auto;
+  min-width: 100vw;
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+#calc {
+  height: 50vh;
+  width: 30vw;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: center;
+}
+
+#calcDisplay {
+  width: 100%;
+  flex: 2 auto;
+  padding: 4px 8px;
+
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+#calcResult,
+#calcInput {
+  flex: 0 0 50%;
+}
+#calcResult {
+  text-align: start;
+}
+#calcInput {
+  text-align: end;
+}
+
+.buttonContainer {
+  width: 100%;
+  flex: 5 auto;
+  display: flex;
+  flex-flow: row nowrap;
+  justify-content: center;
+  align-items: center;
+}
+
+#numButtons {
+  width: 60%;
+  display: flex;
+  flex-flow: row wrap-reverse;
+  justify-content: center;
+  align-items: flex-start;
+}
+
+#opButtons {
+  width: 40%;
+  display: flex;
+  flex-flow: column wrap;
+  justify-content: flex-end;
+  align-items: center;
+}
+
+#numButtons,
+#opButtons {
+  height: 100%;
+  gap: 12px;
+}

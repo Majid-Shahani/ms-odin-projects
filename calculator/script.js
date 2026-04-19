@@ -8,7 +8,7 @@ const operators = {
       if (n1 == undefined) return -1 * n2;
       else return n1 - n2;
     },
-  },
+  }, // needs proper unary - operator
   "*": { precedence: 2, op: (n1, n2) => n1 * n2 },
   "/": { precedence: 2, op: (n1, n2) => n1 / n2 },
 };
