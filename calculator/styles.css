@@ -2,6 +2,9 @@ body {
   margin: 0;
   padding: 0;
   min-height: 100vh;
+
+  background-color: hsl(248, 39%, 39%);
+
   display: flex;
   flex-direction: column;
   justify-content: space-between;
@@ -18,18 +21,28 @@ main {
 }
 
 #calc {
-  height: 50vh;
-  width: 30vw;
+  background-color: hsl(271, 40%, 50%);
+
+  border: 6px solid hsl(271, 40%, 25%);
+  border-radius: 5px;
+
+  padding: 6px;
+
   display: flex;
   flex-direction: column;
-  justify-content: flex-start;
+  justify-content: center;
   align-items: center;
 }
 
 #calcDisplay {
   width: 100%;
   flex: 2 auto;
-  padding: 4px 8px;
+
+  background-color: hsl(59, 50%, 50%);
+  border: 3px solid hsl(110, 40%, 25%);
+
+  color: hsl(270, 100%, 50%);
+  font-size: 28px;
 
   display: flex;
   flex-direction: column;
@@ -38,6 +51,7 @@ main {
 #calcResult,
 #calcInput {
   flex: 0 0 50%;
+  padding: 4px 8px;
 }
 #calcResult {
   text-align: start;
@@ -75,4 +89,5 @@ main {
 #opButtons {
   height: 100%;
   gap: 12px;
+  padding: 4px 8px;
 }
