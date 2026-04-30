@@ -15,8 +15,6 @@ pnpm-debug.log*
 .env.*
 !.env.example
 
-package-lock.json
-
 .cahce/
 .parcel-cache/
 .eslintcache
